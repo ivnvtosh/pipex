@@ -28,16 +28,20 @@ CFLAGS		=	-Wall -Wextra -Werror
 RM			=	rm -f
 
 OBJS		=	$(SRCS:.c=.o)
+OBJ			=	../obj/
 
 .PHONY		:	all clean fclean re
 
-all			:	$(NAME)
+all			:	$(OBJ) $(NAME)
 
 $(NAME)		:	$(OBJS)
 				$(CC) $(OBJS) $(LIBFT) $(LIBGNL) -o $(NAME)
 
-%.o			:	%.c $(HEADER) $(LIBFT) $(LIBGNL)
+$(OBJ)%.o	:	%.c $(HEADER) $(LIBFT) $(LIBGNL) | $(OBJ)
 				$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ)		:
+				mkdir $(OBJ)
 
 clean		:
 				$(RM) $(OBJS)

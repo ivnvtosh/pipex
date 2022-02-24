@@ -12,7 +12,7 @@
 
 #include "pipex.h"
 
-static int	get_out(char *path)
+int	get_out(char *path)
 {
 	int	fd;
 
@@ -23,23 +23,22 @@ static int	get_out(char *path)
 	return (fd);
 }
 
-static int	get_in(char *path)
+int	get_in(char *path)
 {
 	int	fd;
 
 	fd = open(path, O_WRONLY, O_TRUNC, O_CREAT, 777);
 	if (fd == -1)
 		terminate(FD);
-	// dup2(fd, 1);
-	// printf("hey\n");
+	dup2(fd, 1);
 	return (fd);
 }
 
-t_file	get_file(int count, char **parameters)
+t_files	get_file(int count, char **parameters)
 {
-	t_file	file;
+	t_files	file;
 
-	file.out = get_out(parameters[0]);
-	file.in = get_in(parameters[count - 1]);
+	file.out.path = parameters[0];
+	file.in.path = parameters[count - 1];
 	return (file);
 }

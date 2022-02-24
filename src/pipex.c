@@ -12,13 +12,13 @@
 
 #include "pipex.h"
 
-t_data	parser(int count, char **parameters);
-void	foo(t_data data, char **envp);
+t_data	parser(int count, char **parameters, char **envp);
+void	foo(t_data data);
 
 void	pipex(int count, char **parameters, char **envp)
 {
 	t_data	data;
 
-	data = parser(count, parameters);
-	foo(data, envp);
+	data = parser(count, parameters, envp);
+	// foo(data);
 }

@@ -20,5 +20,7 @@ void	terminate(int code)
 		ft_putstr_fd("Error malloc\n", 2);
 	else if (code == FD)
 		ft_putstr_fd("Error fd\n", 2);
+	else if (code == PID)
+		ft_putstr_fd("Error pid\n", 2);
 	exit(code);
 }

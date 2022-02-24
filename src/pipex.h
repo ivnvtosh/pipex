@@ -26,17 +26,26 @@
 # define ERROR		1
 # define MALLOC		2
 # define FD			3
-# define NOTHING	4
+# define PID		4
+# define NOTHING	5
 
 typedef struct s_file
 {
-	int	out;
-	int	in;
+	char	*path;
+	int		fd;
 }	t_file;
+
+typedef struct s_files
+{
+	t_file	out;
+	t_file	in;
+}	t_files;
 
 typedef struct s_data
 {
-	t_file	file;
+	t_files	file;
+	char	**command;
+	char	**envp;
 }	t_data;
 
 void	terminate(int code);
