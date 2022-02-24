@@ -1,18 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_atox.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccamie <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/26 19:49:24 by ccamie            #+#    #+#             */
-/*   Updated: 2021/10/26 19:49:25 by ccamie           ###   ########.fr       */
+/*   Created: 2022/01/13 07:11:58 by ccamie            #+#    #+#             */
+/*   Updated: 2022/01/13 07:12:06 by ccamie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+int	ft_isdigit(int c);
 
-char	*get_next_line(int fd);
+unsigned int	ft_atox(const char *s)
+{
+	int	n;
 
-#endif
+	while (*s == 32 || (*s >= 9 && *s <= 13))
+		s++;
+	s += 2;
+	n = 0;
+	while (1)
+	{
+		if (ft_isdigit(*s))
+			n = n * 16 + *s++ - 48;
+		else if (*s >= 65 && *s <= 70)
+			n = n * 16 + *s++ - 55;
+		else if (*s >= 97 && *s <= 102)
+			n = n * 16 + *s++ - 87;
+		else
+			break ;
+	}
+	return (n);
+}

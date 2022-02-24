@@ -5,26 +5,21 @@
 #                                                     +:+ +:+         +:+      #
 #    By: ccamie <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/10/18 15:45:41 by ccamie            #+#    #+#              #
-#    Updated: 2021/10/18 15:45:43 by ccamie           ###   ########.fr        #
+#    Created: 2022/02/15 16:12:30 by ccamie            #+#    #+#              #
+#    Updated: 2022/02/15 16:12:31 by ccamie           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		=	../pipex
-HEADER		=	   pipex.h
+NAME		=	libgnl.a
+HEADER		=	libgnl.h
 
-LIBFT		=	../libft/libft.a
-LIBGNL		=	../libgnl/libgnl.a
-
-SRCS		=	foo.c		\
-				get_file.c	\
-				main.c		\
-				parser.c	\
-				pipex.c		\
-				terminate.c	\
+SRCS		=	get_next_line_utils.c	\
+				get_next_line.c
 
 CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror
+AR			=	ar
+ARFLAGS		=	crs
 RM			=	rm -f
 
 OBJS		=	$(SRCS:.c=.o)
@@ -34,9 +29,9 @@ OBJS		=	$(SRCS:.c=.o)
 all			:	$(NAME)
 
 $(NAME)		:	$(OBJS)
-				$(CC) $(OBJS) $(LIBFT) $(LIBGNL) -o $(NAME)
+				$(AR) $(ARFLAGS) $(NAME) $?
 
-%.o			:	%.c $(HEADER) $(LIBFT) $(LIBGNL)
+%.o			:	%.c $(HEADER)
 				$(CC) $(CFLAGS) -c $< -o $@
 
 clean		:
@@ -44,5 +39,5 @@ clean		:
 
 fclean		:	clean
 				$(RM) $(NAME)
-				
+
 re			:	fclean all

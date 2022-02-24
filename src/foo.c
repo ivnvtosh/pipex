@@ -1,44 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   foo.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccamie <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/24 19:02:04 by ccamie            #+#    #+#             */
-/*   Updated: 2022/01/24 19:02:05 by ccamie           ###   ########.fr       */
+/*   Created: 2022/02/24 12:18:54 by ccamie            #+#    #+#             */
+/*   Updated: 2022/02/24 12:18:58 by ccamie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "pipex.h"
 
-# include "../libft/libft.h"
-# include "../libgnl/libgnl.h"
-
-# include <stdlib.h>
-# include <fcntl.h>
-# include <unistd.h>
-
-# include <stdio.h>
-
-# define GOOD		0
-# define ERROR		1
-# define MALLOC		2
-# define FD			3
-# define NOTHING	4
-
-typedef struct s_file
+void	foo(t_data data, char **envp)
 {
-	int	out;
-	int	in;
-}	t_file;
+	pid_t	pid;
+	char	*s;
+	int		p;
 
-typedef struct s_data
-{
-	t_file	file;
-}	t_data;
-
-void	terminate(int code);
-
-#endif
+	(void)data;
+	s = ft_strdup("infile");
+	pid = fork();
+	if (pid == -1)
+	{
+		terminate(MALLOC);
+	}
+	if (pid != 0)
+	{
+		wait(&p);
+	}
+	else
+	{
+		execve("/bin/grep", &s, envp);
+		free(s);
+	}
+}

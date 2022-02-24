@@ -15,15 +15,15 @@
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 size_t	ft_strlen(const char *s);
 
-char	*ft_strdup(const char *s1)
+char	*ft_strdup(const char *s)
 {
-	char	*s2;
+	char	*sd;
 	size_t	slen;
 
-	slen = ft_strlen(s1) + 1;
-	s2 = (char *)malloc(sizeof(char) * (slen));
-	if (s2 == NULL)
+	slen = ft_strlen(s) + 1;
+	sd = (char *)malloc(sizeof(char) * (slen));
+	if (sd == NULL)
 		return (NULL);
-	ft_memcpy(s2, s1, slen);
-	return (s2);
+	ft_memcpy(sd, s, slen);
+	return (sd);
 }

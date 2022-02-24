@@ -10,12 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-void	pipex(int count, char **parameters);
+#include "pipex.h"
 
-int	main(int argc, char **argv)
+void	pipex(int count, char **parameters, char **envp);
+
+int	main(int argc, char **argv, char **envp)
 {
 	if (argc == 1)
-		return (1);
-	pipex(--argc, ++argv);
-	return (10);
+		return (NOTHING);
+	// while (*envp)
+	// 	printf("%s\n", *envp++);
+	pipex(--argc, ++argv, envp);
+	return (GOOD);
 }

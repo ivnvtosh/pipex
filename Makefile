@@ -10,28 +10,31 @@
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY		:	all clean fclean re bonus rebonus libft
+.PHONY		:	all clean fclean re bonus rebonus libft libgnl
 
-all			:	libft
+all			:	libft libgnl
 				make -C src all
 
-bonus		:	libft
+bonus		:	libft libgnl
 				make -C src_bonus all
 
 libft		:
 				make -C libft bonus
 
-clean		:
-				$(RM) $(OBJS)
-				make -C src clean
-				make -C src_bonus clean
-				make -C libft clean
+libgnl		:
+				make -C libgnl
 
-fclean		:	clean
-				$(RM) $(NAME)
+clean		:
+				make -C src clean
+#				make -C src_bonus clean
+				make -C libft clean
+				make -C libgnl clean
+
+fclean		:
 				make -C src fclean
-				make -C src_bonus fclean
+#				make -C src_bonus fclean
 				make -C libft fclean
+				make -C libgnl fclean
 				
 re			:	fclean all
 
