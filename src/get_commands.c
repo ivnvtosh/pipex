@@ -12,20 +12,30 @@
 
 #include "pipex.h"
 
-char	**get_commands(int count, char **parameters)
+static char	**get_command(char *parameter)
 {
 	char	**command;
+
+	command = ft_split(parameter, 32);
+	if (command == NULL)
+		terminate(MALLOC);
+	return (command);
+}
+
+char	***get_commands(int count, char **parameters)
+{
+	char	***commands;
 	int		i;
 
-	command = (char **)malloc(sizeof(char *) * (count + 1));
-	if (command == NULL)
+	commands = (char ***)malloc(sizeof(char **) * (count + 1));
+	if (commands == NULL)
 		terminate(MALLOC);
 	i = 0;
 	while (parameters[i] != NULL)
 	{
-		command[i] = get_command();
+		commands[i] = get_command(parameters[i]);
 		i += 1;
 	}
-	command[count] = NULL;
-	return (command);
+	commands[count] = NULL;
+	return (commands);
 }

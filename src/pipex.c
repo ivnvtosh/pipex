@@ -20,5 +20,5 @@ void	pipex(int count, char **parameters, char **envp)
 	t_data	data;
 
 	data = parser(count, parameters, envp);
-	// foo(data);
+	foo(data);
 }

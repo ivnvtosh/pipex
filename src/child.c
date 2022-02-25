@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   foo.c                                              :+:      :+:    :+:   */
+/*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccamie <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/24 12:18:54 by ccamie            #+#    #+#             */
-/*   Updated: 2022/02/24 12:18:58 by ccamie           ###   ########.fr       */
+/*   Created: 2022/02/25 14:22:23 by ccamie            #+#    #+#             */
+/*   Updated: 2022/02/25 14:22:31 by ccamie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	parent_process(t_data data, pid_t pid);
-void	child_process(t_data data);
+int	get_out(char *path);
+int	get_in(char *path);
 
-void	foo(t_data data)
+void	child_process(t_data data)
 {
-	pid_t	pid;
+	char	**cmd;
 
-	pid = fork();
-	if (pid == -1)
-	{
-		terminate(PID);
-	}
-	if (pid != 0)
-	{
-		parent_process(data, pid);
-	}
-	else
-	{
-		child_process(data);
-	}
+	get_out(data.file.out.path);
+	get_in(data.file.in.path);
+	cmd = *data.command;
+	execve("/usr/bin/grep", cmd, data.envp);
+	terminate(PID);
 }

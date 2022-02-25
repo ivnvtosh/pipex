@@ -12,15 +12,15 @@
 
 #include "pipex.h"
 
-t_files	get_file(int count, char **parameters);
-char	**get_commands(int count, char **parameters);
+t_files	get_files(int count, char **parameters);
+char	***get_commands(int count, char **parameters);
 
 t_data	parser(int count, char **parameters, char **envp)
 {
 	t_data	data;
 
-	data.file = get_file(count, parameters);
-	// data.command = get_commands(count - 2, parameters[1]);
+	data.file = get_files(count, parameters);
+	data.command = get_commands(count - 2, &parameters[1]);
 	data.envp = envp;
 	return (data);
 }

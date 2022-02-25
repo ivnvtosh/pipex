@@ -16,32 +16,31 @@ HEADER		=	   pipex.h
 LIBFT		=	../libft/libft.a
 LIBGNL		=	../libgnl/libgnl.a
 
-SRCS		=	foo.c		\
-				get_file.c	\
-				main.c		\
-				parser.c	\
-				pipex.c		\
-				terminate.c	\
+SRCS		=	child.c			\
+				foo.c			\
+				get_commands.c	\
+				get_file.c		\
+				main.c			\
+				parent.c		\
+				parser.c		\
+				pipex.c			\
+				terminate.c		\
 
 CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror
 RM			=	rm -f
 
-OBJS		=	$(SRCS:.c=.o)
-OBJ			=	../obj/
+OBJS		=	$(addprefix ../obj/, $(SRCS:.c=.o))
 
 .PHONY		:	all clean fclean re
 
-all			:	$(OBJ) $(NAME)
+all			:	$(NAME)
 
 $(NAME)		:	$(OBJS)
 				$(CC) $(OBJS) $(LIBFT) $(LIBGNL) -o $(NAME)
 
-$(OBJ)%.o	:	%.c $(HEADER) $(LIBFT) $(LIBGNL) | $(OBJ)
+../obj/%.o	:	%.c $(HEADER) $(LIBFT) $(LIBGNL)
 				$(CC) $(CFLAGS) -c $< -o $@
-
-$(OBJ)		:
-				mkdir $(OBJ)
 
 clean		:
 				$(RM) $(OBJS)

@@ -44,7 +44,7 @@ typedef struct s_files
 typedef struct s_data
 {
 	t_files	file;
-	char	**command;
+	char	***command;
 	char	**envp;
 }	t_data;
 

@@ -12,11 +12,14 @@
 
 .PHONY		:	all clean fclean re bonus rebonus libft libgnl
 
-all			:	libft libgnl
+all			:	obj libft libgnl
 				make -C src all
 
-bonus		:	libft libgnl
+bonus		:	obj libft libgnl
 				make -C src_bonus all
+
+obj			:
+				mkdir obj
 
 libft		:
 				make -C libft bonus
