@@ -16,7 +16,7 @@ void	pipex(int count, char **parameters, char **envp);
 
 int	main(int argc, char **argv, char **envp)
 {
-	if (argc == 1)
+	if (argc <= 3)
 		return (NOTHING);
 	pipex(--argc, ++argv, envp);
 	return (GOOD);

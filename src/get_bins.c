@@ -1,25 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_command.c                                      :+:      :+:    :+:   */
+/*   get_bins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccamie <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/24 18:03:24 by ccamie            #+#    #+#             */
-/*   Updated: 2022/02/24 18:03:27 by ccamie           ###   ########.fr       */
+/*   Created: 2022/02/25 16:51:23 by ccamie            #+#    #+#             */
+/*   Updated: 2022/02/25 16:51:25 by ccamie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	***get_bins(int count, char **parameters);
-char	**get_paths(int count, char ***bins, char **envp);
-
-t_commands	get_commands(int count, char **parameters, char **envp)
+static char	**get_bin(char *parameter)
 {
-	t_commands	command;
+	char	**command;
 
-	command.bin = get_bins(count, parameters);
-	command.path = get_paths(count, command.bin, envp);
+	command = ft_split(parameter, 32);
+	if (command == NULL)
+		terminate(MALLOC);
 	return (command);
+}
+
+char	***get_bins(int count, char **parameters)
+{
+	char	***bin;
+	int		i;
+
+	bin = (char ***)malloc(sizeof(char **) * (count + 1));
+	if (bin == NULL)
+		terminate(MALLOC);
+	i = 0;
+	while (parameters[i] != NULL)
+	{
+		bin[i] = get_bin(parameters[i]);
+		i += 1;
+	}
+	bin[count] = NULL;
+	return (bin);
 }

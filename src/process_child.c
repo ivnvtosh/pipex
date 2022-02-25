@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   child.c                                            :+:      :+:    :+:   */
+/*   process_child.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccamie <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,16 +12,15 @@
 
 #include "pipex.h"
 
-int	get_out(char *path);
-int	get_in(char *path);
+pid_t	get_pid(void);
+int		get_out(char *path);
+int		get_in(char *path);
 
-void	child_process(t_data data)
+void	child(t_data data)
 {
-	char	**cmd;
-
+	// data.pid.child = get_pid();
 	get_out(data.file.out.path);
 	get_in(data.file.in.path);
-	cmd = *data.command;
-	execve("/usr/bin/grep", cmd, data.envp);
-	terminate(PID);
+	execve(data.command.path[0], data.command.bin[0], data.envp);
+	terminate(ERROR);
 }

@@ -20,6 +20,9 @@ int	get_out(char *path)
 	if (fd == -1)
 		terminate(FD);
 	dup2(fd, 0);
+	fd = close(fd);
+	if (fd == -1)
+		terminate(FD);
 	return (fd);
 }
 
@@ -27,10 +30,13 @@ int	get_in(char *path)
 {
 	int	fd;
 
-	fd = open(path, O_WRONLY, O_TRUNC, O_CREAT, 777);
+	fd = open(path, O_WRONLY, O_TRUNC, O_CREAT, 0644);
 	if (fd == -1)
 		terminate(FD);
 	dup2(fd, 1);
+	fd = close(fd);
+	if (fd == -1)
+		terminate(FD);
 	return (fd);
 }
 
@@ -50,8 +56,8 @@ t_files	get_files(int count, char **parameters)
 {
 	t_files	file;
 
-	check_file(parameters[0]);
-	file.out.path = parameters[0];
-	file.in.path = parameters[count - 1];
+	check_file(parameters[count - 1]);
+	file.out.path = parameters[count - 1];
+	file.in.path = parameters[0];
 	return (file);
 }

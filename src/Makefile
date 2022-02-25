@@ -16,18 +16,20 @@ HEADER		=	   pipex.h
 LIBFT		=	../libft/libft.a
 LIBGNL		=	../libgnl/libgnl.a
 
-SRCS		=	child.c			\
-				foo.c			\
+SRCS		=	foo.c			\
+				get_bins.c		\
 				get_commands.c	\
+				get_paths.c		\
 				get_file.c		\
 				main.c			\
-				parent.c		\
 				parser.c		\
 				pipex.c			\
+				process_child.c	\
+				process_parent.c\
 				terminate.c		\
 
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror -g
 RM			=	rm -f
 
 OBJS		=	$(addprefix ../obj/, $(SRCS:.c=.o))
