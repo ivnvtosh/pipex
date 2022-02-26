@@ -19,10 +19,10 @@ static char	**get_path(char **envp)
 	while (*envp != NULL && ft_strncmp(*envp, "PATH", 4))
 		envp++;
 	if (*envp == NULL)
-		terminate(ENVP);
+		terminate("invalid envp");
 	check = ft_split(*envp + 5, ':');
 	if (check == NULL)
-		terminate(MALLOC);
+		terminate("envp");
 	return (check);
 }
 
@@ -37,15 +37,14 @@ static char	*search_path(char *bin, char **check)
 		free(temp);
 		temp1 = ft_strjoin("/", bin);
 		if (temp1 == NULL)
-			terminate(MALLOC);
+			terminate("path temp1");
 		temp = ft_strjoin(*check++, temp1);
 		if (temp == NULL)
-			terminate(MALLOC);
+			terminate("path temp2");
 		free(temp1);
 	}
 	if (*check == NULL)
-		terminate(COMMAND);
-	// printf("\x1b[32mfind: %s\x1b[0m\n", temp);
+		terminate("invalid command");
 	return (temp);
 }
 
@@ -58,7 +57,7 @@ char	**get_paths(int count, char ***bins, char **envp)
 	check = get_path(envp);
 	path = (char **)malloc(sizeof(char *) * (count + 1));
 	if (path == NULL)
-		terminate(MALLOC);
+		terminate("path");
 	i = 0;
 	while (bins[i] != NULL)
 	{

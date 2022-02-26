@@ -14,12 +14,12 @@
 
 static char	**get_bin(char *parameter)
 {
-	char	**command;
+	char	**bin;
 
-	command = ft_split(parameter, 32);
-	if (command == NULL)
-		terminate(MALLOC);
-	return (command);
+	bin = ft_split(parameter, 32);
+	if (bin == NULL)
+		terminate("bin");
+	return (bin);
 }
 
 char	***get_bins(int count, char **parameters)
@@ -29,7 +29,7 @@ char	***get_bins(int count, char **parameters)
 
 	bin = (char ***)malloc(sizeof(char **) * (count + 1));
 	if (bin == NULL)
-		terminate(MALLOC);
+		terminate("bins");
 	i = 0;
 	while (parameters[i] != NULL)
 	{

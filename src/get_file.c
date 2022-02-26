@@ -12,31 +12,33 @@
 
 #include "pipex.h"
 
-int	get_out(char *path)
+int	get_in(char *path)
 {
 	int	fd;
 
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
-		terminate(FD);
+	{
+		terminate("outfile");
+	}
 	dup2(fd, 0);
 	fd = close(fd);
 	if (fd == -1)
-		terminate(FD);
+		terminate("outfile");
 	return (fd);
 }
 
-int	get_in(char *path)
+int	get_out(char *path)
 {
 	int	fd;
 
 	fd = open(path, O_WRONLY, O_TRUNC, O_CREAT, 0644);
 	if (fd == -1)
-		terminate(FD);
+		terminate("infile");
 	dup2(fd, 1);
 	fd = close(fd);
 	if (fd == -1)
-		terminate(FD);
+		terminate("infile");
 	return (fd);
 }
 
@@ -46,10 +48,10 @@ static void	check_file(char *path)
 
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
-		terminate(FD);
+		terminate("outfile");
 	fd = close(fd);
 	if (fd == -1)
-		terminate(FD);
+		terminate("outfile");
 }
 
 t_files	get_files(int count, char **parameters)

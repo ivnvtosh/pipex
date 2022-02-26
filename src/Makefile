@@ -24,8 +24,7 @@ SRCS		=	foo.c			\
 				main.c			\
 				parser.c		\
 				pipex.c			\
-				process_child.c	\
-				process_parent.c\
+				child.c			\
 				terminate.c		\
 
 CC			=	cc

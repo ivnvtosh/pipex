@@ -21,16 +21,7 @@
 # include <unistd.h>
 
 # include <stdio.h>
-
-# define GOOD		0
-# define ERROR		1
-# define MALLOC		2
-# define FD			3
-# define ENVP		4
-# define COMMAND	5
-# define PID		6
-# define FORK		7
-# define NOTHING	8
+# include <string.h> 
 
 typedef struct s_file
 {
@@ -52,8 +43,8 @@ typedef struct s_commands
 
 typedef struct s_pid
 {
-	int	parent[2];
-	int	child[2];
+	int	one[2];
+	int	two[2];
 }	t_pid;
 
 typedef struct s_data
@@ -64,6 +55,12 @@ typedef struct s_data
 	char		**envp;
 }	t_data;
 
-void	terminate(int code);
+typedef struct s_cmd
+{
+	char	*path;
+	char	**bin;
+}	t_cmd;
+
+void	terminate(char *string);
 
 #endif
