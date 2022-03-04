@@ -63,7 +63,7 @@ SRCS_B		=	ft_lstadd_back_bonus.c	\
 				ft_lstsize_bonus.c
 
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror -g
+CFLAGS		=	-Wall -Wextra -Werror 
 AR			=	ar
 ARFLAGS		=	crs
 RM			=	rm -f

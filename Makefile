@@ -12,7 +12,7 @@
 
 .PHONY		:	all clean fclean re bonus rebonus libft libgnl
 
-all			:	obj libft libgnl
+all			:	obj libft
 				make -C src all
 
 bonus		:	obj libft libgnl
@@ -29,13 +29,13 @@ libgnl		:
 
 clean		:
 				make -C src clean
-#				make -C src_bonus clean
+				make -C src_bonus clean
 				make -C libft clean
 				make -C libgnl clean
 
 fclean		:
 				make -C src fclean
-#				make -C src_bonus fclean
+				make -C src_bonus fclean
 				make -C libft fclean
 				make -C libgnl fclean
 				

@@ -1,5 +1,5 @@
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 # include "../libft/libft.h"
 # include "../libgnl/libgnl.h"
@@ -21,8 +21,8 @@ typedef struct s_data
 	char	*in;
 	char	*out;
 	char	**envp;
-	t_cmd	cmd1;
-	t_cmd	cmd2;
+	int		count;
+	t_cmd	*cmd;
 }	t_data;
 
 void	terminate(char *string);

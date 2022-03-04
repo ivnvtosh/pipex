@@ -1,4 +1,6 @@
-#include "pipex.h"
+#include "pipex_bonus.h"
+
+void	ft_free(char **pointer);
 
 static char	**get_paths(char **envp)
 {
@@ -36,40 +38,39 @@ static char	*search_path(char *bin, char **paths)
 	return (temp);
 }
 
-static t_cmd	get_cmd(char *command, char **paths)
+static t_cmd	*get_cmd(int count, char **command, char **paths)
 {
-	t_cmd	cmd;
+	t_cmd	*cmd;
+	int		i;
 
-	cmd.argv = ft_split(command, 32);
-	if (cmd.argv == NULL)
-		terminate("argv");
-	cmd.file = search_path(cmd.argv[0], paths);
-	if (cmd.file == NULL)
-		terminate("file");
+	cmd = (t_cmd *)malloc(count * sizeof(t_cmd));
+	if (cmd == NULL)
+		terminate("cmd");
+	i = 0;
+	while (i < count)
+	{
+		cmd[i].argv = ft_split(command[i], 32);
+		if (cmd[i].argv == NULL)
+			terminate("argv");
+		cmd[i].file = search_path(cmd[i].argv[0], paths);
+		if (cmd[i].argv == NULL)
+			terminate("file");
+		i += 1;
+	}
 	return (cmd);
 }
 
-void	ft_free(char **pointer)
-{
-	int	i;
-
-	i = 0;
-	while (pointer[i] != NULL)
-		free(pointer[i++]);
-	free(pointer);
-}
-
-t_data	parser(char **parameters, char **envp)
+t_data	parser(int count, char **parameters, char **envp)
 {
 	t_data	data;
 	char	**paths;
 
 	data.in = parameters[0];
-	data.out = parameters[3];
+	data.out = parameters[count - 1];
 	data.envp = envp;
 	paths = get_paths(envp);
-	data.cmd1 = get_cmd(parameters[1], paths);
-	data.cmd2 = get_cmd(parameters[2], paths);
+	data.count = count - 2;
+	data.cmd = get_cmd(data.count, &parameters[1], paths);
 	ft_free(paths);
 	return (data);
 }

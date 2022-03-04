@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   terminate.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ccamie <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/24 19:02:15 by ccamie            #+#    #+#             */
-/*   Updated: 2022/01/24 19:02:17 by ccamie           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "pipex.h"
 
 void	terminate(char *string)
@@ -23,4 +11,16 @@ void	terminate(char *string)
 		perror(string);
 		exit(1);
 	}
+}
+
+void	child(t_cmd cmd, char **envp, int in, int out)
+{
+	dup2(in, STDIN_FILENO);
+	dup2(out, STDOUT_FILENO);
+	if (close(in) == -1)
+		terminate("in");
+	if (close(out) == -1)
+		terminate("out");
+	execve(cmd.file, cmd.argv, envp);
+	terminate(cmd.argv[0]);
 }
