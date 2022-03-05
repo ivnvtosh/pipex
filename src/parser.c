@@ -45,7 +45,11 @@ static t_cmd	get_cmd(char *command, char **paths)
 		terminate("argv");
 	cmd.file = search_path(cmd.argv[0], paths);
 	if (cmd.file == NULL)
-		terminate("file");
+	{
+		ft_putstr_fd(cmd.argv[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
+		exit(1);
+	}
 	return (cmd);
 }
 

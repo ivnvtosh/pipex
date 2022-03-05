@@ -36,7 +36,7 @@ void	child_two(t_data data, int fifo[2])
 	}
 	if (child2 == 0)
 	{
-		fd = open(data.out, O_WRONLY, O_TRUNC, O_CREAT, 0644);
+		fd = open(data.out, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		if (fd == -1)
 			terminate("outfile");
 		if (close(fifo[1]) == -1)
@@ -82,8 +82,8 @@ static void	one(t_data data)
 	fifo[0] = 0; 
 	child_only(data, fifo);
 	wait(&cheak);
-	if (cheak != 0)
-		terminate("child");
+	// if (cheak != 0)
+	// 	terminate("child");
 	ft_free(data.cmd1.argv);
 	ft_free(data.cmd2.argv);
 	free(data.cmd1.file);
@@ -108,11 +108,11 @@ void	pipex(char **parameters, char **envp)
 	if (close(fifo[1]) == -1)
 		terminate("fifo[1]");
 	wait(&cheak);
-	if (cheak != 0)
-		terminate("child");
+	// if (cheak != 0)
+	// 	terminate("child");
 	wait(&cheak);
-	if (cheak != 0)
-		terminate("child");
+	// if (cheak != 0)
+	// 	terminate("child");
 	ft_free(data.cmd1.argv);
 	ft_free(data.cmd2.argv);
 	free(data.cmd1.file);
