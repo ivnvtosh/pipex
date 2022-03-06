@@ -68,7 +68,7 @@ void	child_only(t_data data, int fifo[2])
 
 static void	one(t_data data)
 {
-	int	cheak;	
+	int	status;	
 	int	fd;
 	int	fifo[2];
 
@@ -76,25 +76,25 @@ static void	one(t_data data)
 	if (fd != -1)
 	{
 		if (close(fd) == -1)
-			terminate("fifo[1]");
+			terminate("infile");
 		return ;
 	}
 	fifo[0] = 0; 
 	child_only(data, fifo);
-	wait(&cheak);
-	// if (cheak != 0)
-	// 	terminate("child");
+	wait(&status);
 	ft_free(data.cmd1.argv);
 	ft_free(data.cmd2.argv);
 	free(data.cmd1.file);
 	free(data.cmd2.file);
+	if (WIFEXITED(status) != 0)
+		exit(WEXITSTATUS(status));
 	exit(0);
 }
 
 void	pipex(char **parameters, char **envp)
 {
 	t_data	data;
-	int		cheak;
+	int		status[2];
 	int		fifo[2];
 
 	data = parser(parameters, envp);
@@ -107,14 +107,15 @@ void	pipex(char **parameters, char **envp)
 		terminate("fifo[0]");
 	if (close(fifo[1]) == -1)
 		terminate("fifo[1]");
-	wait(&cheak);
-	// if (cheak != 0)
-	// 	terminate("child");
-	wait(&cheak);
-	// if (cheak != 0)
-	// 	terminate("child");
+	wait(&status[0]);
+	wait(&status[1]);
 	ft_free(data.cmd1.argv);
 	ft_free(data.cmd2.argv);
 	free(data.cmd1.file);
 	free(data.cmd2.file);
+	if (WIFEXITED(status[0]) != 0)
+		exit(WEXITSTATUS(status[0]));
+	if (WIFEXITED(status[1]) != 0)
+		exit(WEXITSTATUS(status[1]));
+	exit(0);
 }
