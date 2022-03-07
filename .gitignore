@@ -7,4 +7,7 @@
 *.out
 *.o
 *.a
+object
 pipex
+infile
+outfile

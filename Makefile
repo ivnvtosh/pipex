@@ -1,38 +1,36 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: ccamie <marvin@42.fr>                      +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/10/18 15:45:41 by ccamie            #+#    #+#              #
-#    Updated: 2021/10/18 15:45:43 by ccamie           ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME		=	pipex
+HEADER		=	include/pipex.h
 
-.PHONY		:	all clean fclean re bonus rebonus libft
+CFLAGS		=	-Wall -Wextra -Werror
 
-all			:	libft
-				make -C src all
+SOURCE		=	child.c		\
+				main.c		\
+				utils1.c	\
+				utils2.c	\
+				utils3.c	\
 
-bonus		:	libft
-				make -C src_bonus all
+# SOURCE_B	=
 
-libft		:
-				make -C libft bonus
+OBJECT		=	$(addprefix object/, $(SOURCE:.c=.o))
+
+.PHONY		:	all clean fclean re
+
+all			:	object $(NAME)
+
+$(NAME)		:	$(OBJECT)
+				$(CC) $(OBJECT) -o $(NAME)
+
+object/%.o	:	source/%.c $(HEADER)
+				$(CC) $(CFLAGS) -c $< -o $@
+
+object		:
+				mkdir object
 
 clean		:
-				$(RM) $(OBJS)
-				make -C src clean
-				make -C src_bonus clean
-				make -C libft clean
+				$(RM) $(OBJECT)
+				rmdir object
 
 fclean		:	clean
 				$(RM) $(NAME)
-				make -C src fclean
-				make -C src_bonus fclean
-				make -C libft fclean
-				
-re			:	fclean all
 
-rebonus		:	fclean bonus
+re			:	fclean all
