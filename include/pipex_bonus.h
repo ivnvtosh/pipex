@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils3.c                                           :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccamie <ccamie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/07 20:01:14 by ccamie            #+#    #+#             */
-/*   Updated: 2022/03/07 20:01:15 by ccamie           ###   ########.fr       */
+/*   Created: 2022/03/07 20:43:02 by ccamie            #+#    #+#             */
+/*   Updated: 2022/03/07 20:43:44 by ccamie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
-void	ft_free(char **pointer)
-{
-	int	i;
+# include <pipex.h>
 
-	i = 0;
-	while (pointer[i] != NULL)
-		free(pointer[i++]);
-	free(pointer);
-}
+#endif

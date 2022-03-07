@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   child.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ccamie <ccamie@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/07 20:01:04 by ccamie            #+#    #+#             */
+/*   Updated: 2022/03/07 20:20:53 by ccamie           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/pipex.h"
 
 static char	**get_argv(char *command)
@@ -75,7 +87,7 @@ static char	*get_file(char *command, char **envp)
 		ft_putstr_fd("pipex: ", 2);
 		ft_putstr_fd(command, 2);
 		ft_putstr_fd(": command not found\n", 2);
-		exit(1);
+		exit(127);
 	}
 	ft_free(path);
 	return (file);
