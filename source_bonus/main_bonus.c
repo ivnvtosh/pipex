@@ -10,101 +10,116 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/pipex_bonus.h"
+#include "../include/pipex.h"
 
-void	child(char *command, char **envp, int in, int out);
+void	ft_here_doc(char *stop);
 
-static void	child_first(char *command, char **envp, char *in, int fifo[2])
+void	child_n(char *command, char **envp, int fifo_in[2], int fifo_out[2])
 {
-	int		fd;
-	pid_t	first;
+	pid_t	n;
 
-	first = fork();
-	if (first == -1)
+	n = fork();
+	if (n == -1)
 	{
-		perror("first = fork()");
-		exit(1);
+		terminate("n = fork()");
 	}
-	if (first == 0)
+	if (n == 0)
 	{
-		fd = open(in, O_RDONLY);
-		if (fd == -1)
-		{
-			ft_putstr_fd("pipex: ", 2);
-			perror(in);
-			exit(1);
-		}
-		if (close(fifo[0]) == -1)
-		{
-			perror("if (close(fifo[0]) == -1)");
-			exit(1);
-		}
-		child(command, envp, fd, fifo[1]);
+		if (close(fifo_in[1]) == -1)
+			terminate("if (close(fifo_in[0]) == -1)");
+		if (close(fifo_out[0]) == -1)
+			terminate("if (close(fifo_out[0]) == -1))");
+		child(command, envp, fifo_in[0], fifo_out[1]);
 	}
 }
 
-static void	child_last(char *command, char **envp, char *out, int fifo[2])
+void	last(int i, char **argv, char **envp, int fifo[2][2])
 {
-	int		fd;
-	pid_t	last;
-
-	last = fork();
-	if (last == -1)
+	if (i % 2 == 0)
 	{
-		perror("last = fork()");
-		exit(1);
+		child_last(argv[i + 3], envp, argv[i + 4], fifo[0]);
+		ft_close(fifo[0]);
 	}
-	if (last == 0)
+	else
 	{
-		fd = open(out, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-		if (fd == -1)
-		{
-			perror(out);
-			exit(1);
-		}
-		if (close(fifo[1]) == -1)
-		{
-			perror("if (close(fifo[1]) == -1)");
-			exit(1);
-		}
-		child(command, envp, fifo[0], fd);
+		child_last(argv[i + 3], envp, argv[i + 4], fifo[1]);
+		ft_close(fifo[1]);
 	}
 }
 
-static void	ft_close(int fifo[2])
+void	child_nnnnn(int count, char **argv, char **envp, int fifo[2][2])
 {
-	if (close(fifo[0]) == -1)
+	int	i;
+
+	i = 0;
+	while (i < count)
 	{
-		perror("if (close(fifo[0]) == -1)");
-		exit(1);
+		if (i % 2 == 0)
+		{
+			if (pipe(fifo[1]) == -1)
+				terminate("if (pipe(fifo_two) == -1)");
+			child_n(argv[i + 3], envp, fifo[0], fifo[1]);
+			ft_close(fifo[0]);
+		}
+		else
+		{
+			if (pipe(fifo[0]) == -1)
+				terminate("if (pipe(fifo_one) == -1)");
+			child_n(argv[i + 3], envp, fifo[1], fifo[0]);
+			ft_close(fifo[1]);
+		}
+		i += 1;
 	}
-	if (close(fifo[1]) == -1)
+	last(i, argv, envp, fifo);
+}
+
+int	check_status(int count)
+{
+	int	*status;
+	int	temp;
+	int	i;
+
+	status = (int *)malloc(count * sizeof(int));
+	if (status == NULL)
+		terminate("status = (int *)malloc(argc - 3 * sizeof(int))");
+	i = 0;
+	while (i < count)
 	{
-		perror("if (close(fifo[1]) == -1)");
-		exit(1);
+		wait(&status[i]);
+		i += 1;
 	}
+	while (i > 0)
+	{
+		if (WIFEXITED(status[i - 1]) != 0)
+		{
+			temp = WEXITSTATUS(status[i - 1]);
+			free(status);
+			return (temp);
+		}
+		i -= 1;
+	}
+	free(status);
+	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	int		status[2];
-	int		fifo[2];
+	int	fifo[2][2];
 
-	if (argc != 5)
+	if (argc <= 4)
 		return (1);
-	if (pipe(fifo) == -1)
+	if (pipe(fifo[0]) == -1)
+		terminate("if (pipe(fifo) == -1)");
+	if (ft_strncmp(argv[1], "here_doc", 9) == 0)
 	{
-		perror("if (pipe(fifo) == -1)");
-		exit(1);
+		ft_here_doc(argv[2]);
+		argv++;
+		argc--;
+		child_first(argv[2], envp, ".here_doc", fifo[0]);
 	}
-	child_first(argv[2], envp, argv[1], fifo);
-	child_last(argv[3], envp, argv[4], fifo);
-	ft_close(fifo);
-	wait(&status[0]);
-	wait(&status[1]);
-	if (WIFEXITED(status[1]) != 0)
-		return (WEXITSTATUS(status[1]));
-	if (WIFEXITED(status[0]) != 0)
-		return (WEXITSTATUS(status[0]));
-	return (0);
+	else
+		child_first(argv[2], envp, argv[1], fifo[0]);
+	child_nnnnn(argc - 5, argv, envp, fifo);
+	unlink(".here_doc");
+	return (check_status(argc - 3));
 }

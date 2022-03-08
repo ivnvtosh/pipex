@@ -18,10 +18,7 @@ static char	**get_argv(char *command)
 
 	argv = ft_split(command, 32);
 	if (argv == NULL)
-	{
-		perror("argv = ft_split(command, 32)");
-		exit(1);
-	}
+		terminate("argv = ft_split(command, 32)");
 	return (argv);
 }
 
@@ -38,10 +35,7 @@ static char	**get_path(char **envp)
 	}
 	path = ft_split(*envp + 5, ':');
 	if (path == NULL)
-	{
-		perror("path = ft_split(*envp + 5, ':')");
-		exit(1);
-	}
+		terminate("path = ft_split(*envp + 5, ':')");
 	return (path);
 }
 
@@ -52,16 +46,10 @@ static char	*filejoin(char *command, char *path)
 
 	temp = ft_strjoin(path, "/");
 	if (temp == NULL)
-	{
-		perror("temp1 = ft_strjoin(*path++, \"/\")");
-		exit(1);
-	}
+		terminate("temp1 = ft_strjoin(*path++, \"/\")");
 	file = ft_strjoin(temp, command);
 	if (file == NULL)
-	{
-		perror("file = ft_strjoin(temp1, command)");
-		exit(1);
-	}
+		terminate("file = ft_strjoin(temp1, command)");
 	free(temp);
 	return (file);
 }
@@ -98,21 +86,16 @@ void	child(char *command, char **envp, int in, int out)
 	char	**argv;
 	char	*file;
 
-	dup2(in, STDIN_FILENO);
-	dup2(out, STDOUT_FILENO);
+	if (dup2(in, STDIN_FILENO) == -1)
+		terminate("if (dup2(in, STDIN_FILENO) == -1)");
+	if (dup2(out, STDOUT_FILENO) == -1)
+		terminate("if (dup2(out, STDOUT_FILENO) == -1)");
 	if (close(in) == -1)
-	{
-		perror("if (close(in) == -1)");
-		exit(1);
-	}
+		terminate("if (close(in) == -1)");
 	if (close(out) == -1)
-	{
-		perror("if (close(out) == -1)");
-		exit(1);
-	}
+		terminate("if (close(out) == -1)");
 	argv = get_argv(command);
 	file = get_file(*argv, envp);
 	execve(file, argv, envp);
-	perror("execve(file, argv, envp)");
-	exit(1);
+	terminate("execve(file, argv, envp)");
 }

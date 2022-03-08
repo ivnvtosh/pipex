@@ -10,26 +10,35 @@
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY			:	all clean fclean re bonus rebonus
+NAME			=	../pipex
 
-all				:	object
-					make -C source all
+HEADER			=	../include/pipex.h
 
-bonus			:	object
-					make -C source_bonus all
+CFLAGS			=	-Wall -Wextra -Werror
 
-object			:
-					mkdir object
+SOURCE			=	child_name.c	\
+					child.c			\
+					main.c			\
+					utils1.c		\
+					utils2.c		\
+					utils3.c		\
+
+OBJECT			=	$(addprefix ../object/, $(SOURCE:.c=.o))
+
+.PHONY			:	all clean fclean re
+
+all				:	$(NAME)
+
+$(NAME)			:	$(OBJECT)
+					$(CC) $(OBJECT) -o $(NAME)
+
+../object/%.o	:	%.c $(HEADER)
+					$(CC) $(CFLAGS) -c $< -o $@
 
 clean			:
-					make -C source clean
-					make -C source_bonus clean
-					rmdir object
+					$(RM) $(OBJECT)
 
-fclean			:
-					make -C source fclean
-					make -C source_bonus fclean
+fclean			:	clean
+					$(RM) $(NAME)
 
 re				:	fclean all
-
-rebonus			:	fclean bonus

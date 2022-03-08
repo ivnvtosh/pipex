@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
 
 void	ft_free(char **pointer)
 {
@@ -20,4 +22,18 @@ void	ft_free(char **pointer)
 	while (pointer[i] != NULL)
 		free(pointer[i++]);
 	free(pointer);
+}
+
+void	terminate(const char *string)
+{
+	perror(string);
+	exit(1);
+}
+
+void	ft_close(int fifo[2])
+{
+	if (close(fifo[0]) == -1)
+		terminate("if (close(fifo[0]) == -1)");
+	if (close(fifo[1]) == -1)
+		terminate("if (close(fifo[1]) == -1)");
 }
